@@ -31,12 +31,12 @@ enum tap_dance_codes {
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [BASE] = LAYOUT_moonlander(
-    TD(EQU_ESC),    KC_1,           KC_2,           KC_3,           KC_4,           KC_5,           CG_TOGG,                        AUTOFIL,        KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_MINUS,
+    TD(EQU_ESC),    KC_1,           KC_2,           KC_3,           KC_4,           KC_5,           TD(UND_PRT),                    AUTOFIL,        KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_MINUS,
     KC_TAB,         KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,           TG(1),                          TG(1),          KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           KC_BSLASH,
     KC_BSPACE,      KC_A,           KC_S,           KC_D,           KC_F,           KC_G,           KC_DEL,                         RESOLVED,       KC_H,           KC_J,           KC_K,           KC_L,           LT(2,KC_SCOLON),TD(DANCE_3),
     KC_LSHIFT,      LCTL_T(KC_Z),   KC_X,           KC_C,           KC_V,           KC_B,                                                           KC_N,           KC_M,           KC_COMMA,       KC_DOT,         KC_SLASH,       KC_RSHIFT,
     LT(1,KC_GRAVE), TO(1),          LALT(KC_LSHIFT),KC_LEFT,        TD(RIG_GUI),        LALT_T(KC_APPLICATION),                     TD(UND_PRT),                    TD(SPC_PRD),    KC_DOWN,        KC_LBRACKET,    KC_RBRACKET,    MO(1),
-                                                                                 TD(GUI_CTL),KC_BSPACE,KC_LGUI,                     KC_BSPACE,TD(SPC_PRD),TD(ENT_ESC)
+                                                                                 TD(GUI_CTL),KC_BSPACE,KC_LGUI,                     KC_BSPACE,TD(SPC_PRD),KC_SPACE
     ),
 
     [SYMB] = LAYOUT_moonlander(
@@ -228,6 +228,8 @@ enum {
     MORE_TAPS
 };
 
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) { return TAPPING_TERM; }
+
 static tap dance_state[9];
 
 uint8_t dance_step(qk_tap_dance_state_t *state);
@@ -336,7 +338,7 @@ void spc_prd_finished(qk_tap_dance_state_t *state, void *user_data) {
     switch (dance_state[4].step) {
         case SINGLE_TAP: register_code16(KC_SPACE); break;
         case SINGLE_HOLD: register_code16(KC_UP); break;
-        case DOUBLE_TAP: register_code16(KC_DOT); register_code16(KC_SPACE); break; // Double-space period
+        case DOUBLE_TAP: register_code16(KC_DOT); register_code16(KC_SPACE); break;  // Double-space period
         case DOUBLE_SINGLE_TAP: tap_code16(KC_SPACE); register_code16(KC_SPACE);
     }
 }
